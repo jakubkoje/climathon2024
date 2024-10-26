@@ -27,7 +27,7 @@
       <h2 class="text-2xl">Umiestnenie kontajnerového stojiska</h2>
       <p>Umiestnite kontajnerové stojisko na zelenú časť mapy. Pomocou posuvníka pod mapou môžete zmeniť orientáciu kontajnerového stojiska.</p>
       <UFormField label="" name="map">
-        <Map :container="selectedContainer.id" v-model="buildingState.map" :center="[17.150450, 48.157436]" />
+        <Map :container="selectedContainer.id" v-model="buildingState.map" :center="store.formData.step2.address.center" />
       </UFormField>
 
       <div class="flex justify-end gap-2 mt-6">

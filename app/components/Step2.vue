@@ -8,29 +8,13 @@
         class="space-y-4"
     >
       <UFormField label="Address" name="address">
-        <UInput
-            v-model="residentialState.address"
-            @blur="onAddressChange"
-        />
-      </UFormField>
-
-      <UFormField label="Postal Code" name="postalCode">
-        <UInput
-            v-model="residentialState.postalCode"
-            @blur="onAddressChange"
-            name="address-1"
-            autocomplete="address-line1"
-        />
+        <MapboxCustomGeocoder v-model="residentialState.address" />
       </UFormField>
 
       <div class="flex justify-end gap-2 mt-6">
-        <NextButton/>
+        <NextButton />
       </div>
     </UForm>
-
-    <MapComponent v-if="location" :lat="location.lat" :lon="location.lon" />
-
-    <div v-if="error" class="error">{{ error }}</div>
   </div>
 </template>
 
@@ -50,6 +34,8 @@ onMounted(() => {
 // })
   })
 
+const result = ref(null);
+
 const emit = defineEmits(['submit', 'previous'])
 
 const store = useFormStore();
@@ -57,7 +43,6 @@ const step2 = store.formData.step2;
 
 const residentialState = reactive({
   address: step2.address,
-  postalCode: step2.postalCode,
 });
 
 const location = ref(null);
