@@ -12,7 +12,7 @@ export const step1Schema = v.object({
 });
 
 export const step2Schema = v.object({
-    address: v.pipe(v.object(), v.minLength(1, 'Address is required')),
+    address: v.pipe(v.object({}, 'Address is required'), v.minLength(1, 'Address is required')),
 });
 
 export const step3Schema = v.object({

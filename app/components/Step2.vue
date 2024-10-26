@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col gap-4">
+  <div class="flex flex-col gap-4 pb-64">
     <h2 class="text-2xl">Information about the building</h2>
     <UForm
         :schema="v.safeParser(step2Schema)"
@@ -8,7 +8,9 @@
         class="space-y-4"
     >
       <UFormField label="Address" name="address">
-        <MapboxCustomGeocoder v-model="residentialState.address" />
+        <MapboxCustomGeocoder v-model="residentialState.address" :options="{ countries: 'sk', bbox: [16.938268,47.973709,17.287084,48.263416], placeholder: 'Search for an address'}"
+        class="w-full"
+        />
       </UFormField>
 
       <div class="flex justify-end gap-2 mt-6">
@@ -75,9 +77,21 @@ const nextStep = async (event: FormSubmitEvent<Schema>) => {
 };
 </script>
 
-<style scoped>
-.error {
-  color: red;
-  margin-top: 10px;
+<style>
+.mapboxgl-ctrl-geocoder {
+  width: 100% !important;
+  display: block !important;
+  max-width: unset !important;
+  box-shadow: none !important;
+}
+
+.mapboxgl-ctrl-geocoder--input {
+  box-shadow: none !important;
+  border: 1px solid var(--ui-border-accented);
+  border-radius: calc(var(--ui-radius)*1.5);
+}
+
+.mapboxgl-ctrl-geocoder--input:focus {
+  border: 1px solid var(--ui-border-accented);
 }
 </style>
