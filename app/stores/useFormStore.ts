@@ -4,19 +4,19 @@ import { ref } from 'vue';
 export const useFormStore = defineStore('form', () => {
     const currentStep = ref(0);
 
-    const formData = ref({
+    let formData = ref({
         step1: {
-            firstName: '',
-            lastName: '',
-            email: '',
-            phone: '',
-            address: '',
-            city: '',
-            postalCode: ''
+            firstName: 'John',
+            lastName: 'Doe',
+            email: 'john.doe@example.com',
+            phone: '+1234567890',
+            address: '123 Maple St',
+            city: 'Springfield',
+            postalCode: '12345'
         },
         step2: {
-            address: '',
-            postalCode: '',
+            address: '456 Elm St',
+            postalCode: '67890'
         },
         building: {
             address: '',
