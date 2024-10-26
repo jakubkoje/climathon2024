@@ -1,9 +1,9 @@
 import postgres from 'postgres'
 const sql = postgres({
-  host: 'localhost',
-  port: 6767,
+  host: '188.245.91.0',
+  port: 5432,
   user: 'postgres',
-  password: '',
+  password: 'postgres',
   database: 'postgres'
 })
 export default defineEventHandler(async (event) => {
