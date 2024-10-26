@@ -12,18 +12,12 @@ export default defineEventHandler(async (event) => {
                                         'features', json_agg(
                                                 json_build_object(
                                                         'type', 'Feature',
-                                                        'properties', json_build_object(
-                                                                'ogc_fid', ogc_fid,
-                                                                'objectid', objectid,
-                                                                'typ', typ,
-                                                                'potrubie', potrubie,
-                                                                'shape_length', shape_length
-                                                                      ),
-                                                        'geometry', ST_AsGeoJSON(wkb_geometry)::json
+                                                        'properties', row_to_json(t)::jsonb - 'wkb_geometry',
+                                                        'geometry', ST_AsGeoJSON(t.wkb_geometry)::json
                                                 )
                                                     )
                                 ) AS geojson
-                         FROM waters;`
+                         FROM (SELECT * FROM waters) t;`
   console.log(test)
   return test
 })
