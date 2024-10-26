@@ -12,6 +12,7 @@
   "dependencies": {
     "@nuxt/ui": "^3.0.0-alpha.7",
     "@nuxtjs/leaflet": "^1.2.3",
+    "@pinia/nuxt": "^0.5.5",
     "drizzle-orm": "^0.35.3",
     "mapbox-gl": "^3.7.0",
     "nuxt": "3.13.1",
@@ -27,5 +28,8 @@
   "devDependencies": {
     "@types/pg": "^8.11.10",
     "drizzle-kit": "^0.26.2"
+  },
+  "overrides": {
+    "vue": "latest"
   }
 }
