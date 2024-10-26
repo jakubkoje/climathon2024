@@ -10,14 +10,26 @@ export const step1Schema = v.object({
 
 export const step2Schema = v.object({
     address: v.pipe(v.string(), v.minLength(1, 'Address is required')),
-    city: v.pipe(v.string(), v.minLength(1, 'City is required')),
-    postalCode: v.pipe(v.string(), v.minLength(5, 'Postal code must be at least 5 characters')),
+    postalCode: v.pipe(
+        v.string(),
+        v.minLength(5, 'Postal code is invalid'),
+        v.custom((code: string) => bratislavaPostalCodes.includes(code) || 'Postal code must be a valid Bratislava postal code')
+    )
 });
 
 export const step3Schema = v.object({
     address: v.pipe(v.string(), v.minLength(1, 'Address is required')),
     postalCode: v.pipe(v.string(), v.minLength(5, 'Postal code must be at least 5 characters')),
 });
+
+const bratislavaPostalCodes: string[] = [
+    "81101", "81102", "81103", "81104", "81105", "81106", "81107", "81108", "81109", "81499",
+    "82101", "82102", "82103", "82104", "82105", "82106", "82107", "82108", "82109",
+    "83101", "83102", "83103", "83104", "83105", "83106", "83107",
+    "84101", "84102", "84103", "84104", "84105", "84106", "84107", "84108", "84109", "84110",
+    "85101", "85102", "85103", "85104", "85105", "85106", "85107", "85108", "85109", "85110"
+];
+
 
 // Add types for each schema
 export type Step1Schema = v.InferOutput<typeof step1Schema>;
