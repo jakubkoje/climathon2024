@@ -71,8 +71,8 @@ type Schema = v.InferOutput<typeof step1Schema>
 
 const nextStep = async (event: FormSubmitEvent<Schema>) => {
   // Store the data back in the store
-  // Object.assign(step1, event.data);
-  // emit('submit')
-  exampleUsage()
+  Object.assign(step1, event.data);
+  emit('submit')
+  // exampleUsage()
 };
 </script>
