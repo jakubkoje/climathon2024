@@ -1,16 +1,15 @@
 <template>
   <div class="flex flex-col gap-4">
-    <h2 class="text-2xl">Residential Information</h2>
+    <h2 class="text-2xl">Information about the building</h2>
     <UForm
         :schema="v.safeParser(step2Schema)"
         :state="residentialState"
-        @submit="submitStep"
+        @submit="nextStep"
         class="space-y-4"
     >
       <UFormField label="Address" name="address">
         <UInput
             v-model="residentialState.address"
-            placeholder="Address"
             @blur="onAddressChange"
         />
       </UFormField>
@@ -18,7 +17,6 @@
       <UFormField label="Postal Code" name="postalCode">
         <UInput
             v-model="residentialState.postalCode"
-            placeholder="Postal Code"
             @blur="onAddressChange"
             name="address-1"
             autocomplete="address-line1"
@@ -26,8 +24,8 @@
       </UFormField>
 
       <div class="flex justify-end gap-2 mt-6">
-        <PreviousButton @click="previousStep" />
-        <NextButton />
+        <PreviousButton @click="previousStep"/>
+        <NextButton/>
       </div>
     </UForm>
 
@@ -43,6 +41,7 @@ import { reactive, ref } from 'vue';
 import { useFormStore } from '@/stores/useFormStore';
 import MapComponent from './MapComponent.vue';
 import { geocodeAddress } from '~/utils/geocode';
+import type { FormSubmitEvent } from '#ui/types';
 import { MapboxAddressAutofill, MapboxSearchBox, MapboxGeocoder, config, autofill } from '@mapbox/search-js-web'
 onMounted(() => {
 // autofill({
@@ -52,14 +51,14 @@ onMounted(() => {
 // })
   })
 
-const emit = defineEmits(['next', 'previous', 'submit'])
+const emit = defineEmits(['submit', 'previous'])
 
 const store = useFormStore();
-const residential = store.formData.residential;
+const step2 = store.formData.step2;
 
 const residentialState = reactive({
-  address: residential.address || '',
-  postalCode: residential.postalCode || '',
+  address: step2.address,
+  postalCode: step2.postalCode,
 });
 
 const location = ref(null);
@@ -84,8 +83,11 @@ const previousStep = () => {
   emit('previous')
 }
 
-const submitStep = async (event) => {
-  Object.assign(residential, event.data);
+type Schema = v.InferOutput<typeof step2Schema>
+
+const nextStep = async (event: FormSubmitEvent<Schema>) => {
+  Object.assign(step2, event.data);
+  emit('submit')
 };
 </script>
 

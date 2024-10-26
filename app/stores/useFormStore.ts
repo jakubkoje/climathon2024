@@ -16,13 +16,7 @@ export const useFormStore = defineStore('form', () => {
         },
         step2: {
             address: '',
-            postal_code: '',
-        },
-        residential: {
-            phone: '',
-            address: '',
-            city: '',
-            postalCode: ''
+            postalCode: '',
         },
         building: {
             address: '',
@@ -60,13 +54,7 @@ export const useFormStore = defineStore('form', () => {
             },
             step2: {
                 address: '',
-                postal_code: '',
-            },
-            residential: {
-                phone: '',
-                address: '',
-                city: '',
-                postalCode: ''
+                postalCode: '',
             },
             building: {
                 address: '',

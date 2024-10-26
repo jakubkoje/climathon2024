@@ -14,11 +14,11 @@
           </div>
 
           <UFormField label="Email" name="email">
-            <UInput v-model="firstStepState.email" type="email"/>
+            <UInput v-model="firstStepState.email" type="email" placeholder="example@email.com"/>
           </UFormField>
 
           <UFormField label="Phone Number" name="phone">
-            <UInput v-model="firstStepState.phone" type="tel"/>
+            <UInput v-model="firstStepState.phone" type="tel" placeholder="+421 123 123 123"/>
           </UFormField>
         </div>
         <div class="flex flex-col gap-4">
@@ -49,6 +49,9 @@ import * as v from 'valibot';
 import { reactive } from 'vue';
 import { useFormStore } from '@/stores/useFormStore';
 import NextButton from '~/components/NextButton.vue';
+import type { FormSubmitEvent } from '#ui/types';
+
+const emit = defineEmits(['submit'])
 
 const store = useFormStore();
 const step1 = store.formData.step1;
@@ -63,8 +66,11 @@ const firstStepState = reactive({
   postalCode: step1.postalCode
 });
 
-const nextStep = async (event) => {
+type Schema = v.InferOutput<typeof step1Schema>
+
+const nextStep = async (event: FormSubmitEvent<Schema>) => {
   // Store the data back in the store
-  Object.assign(step1, firstStepState);
+  Object.assign(step1, event.data);
+  emit('submit')
 };
 </script>
