@@ -5,7 +5,7 @@
       <div class="">
         <Stepper :steps="steps" :activeStep="activeStep" @changeStep="changeStep"/>
       </div>
-      <div class="">
+      <div class="flex-1">
         <FormSection :activeStep="activeStep" @next="nextStep" @previous="previousStep" @submit="submitAll"/>
       </div>
     </div>

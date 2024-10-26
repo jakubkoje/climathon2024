@@ -1,6 +1,6 @@
 <!-- components/Step2.vue -->
 <template>
-  <div>
+  <div class="flex flex-col gap-10">
     <h2>Residential Information</h2>
     <UForm
         :schema="v.safeParser(step2Schema)"
@@ -24,7 +24,25 @@
         />
       </UFormField>
 
-      <UButton type="submit">Next</UButton>
+      <div class="flex justify-end gap-2 mt-6">
+        <button
+            type="button"
+            @click="previousStep"
+            class="flex items-center prev-button px-4 py-2 rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-red-300"
+        >
+          <span class="mr-2">&larr;</span>
+          Previous step
+        </button>
+
+        <button
+            type="button"
+            @click="nextStep"
+            class="flex items-center next-button px-4 py-2 rounded-lg text-black focus:outline-none focus:ring-2"
+        >
+          Next step
+          <span class="ml-2">&rarr;</span>
+        </button>
+      </div>
     </UForm>
 
     <MapComponent v-if="location" :lat="location.lat" :lon="location.lon" />
@@ -66,6 +84,14 @@ const onAddressChange = async () => {
   }
 };
 
+const nextStep = () => {
+
+}
+
+const previousStep = () => {
+
+}
+
 const submitStep = async (event) => {
   // Store the data back in the store
   Object.assign(residential, event.data);
@@ -76,5 +102,13 @@ const submitStep = async (event) => {
 .error {
   color: red;
   margin-top: 10px;
+}
+
+.prev-button {
+  border: 1px solid #F4CDCA;
+}
+
+.next-button {
+  background-color: #F4CDCA;
 }
 </style>
