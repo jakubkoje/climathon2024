@@ -2,7 +2,7 @@
 @import "@nuxt/ui";
 
 @theme {
-    --font-family-sans: 'Lexend', sans-serif;
+    --font-family-sans: 'Inter', sans-serif;
 }
 
 body {

@@ -1,11 +1,11 @@
 <template>
   <div class="bg-white w-full h-full text-black">
     <h1 class="text-3xl py-16">Žiadost o zmenu kontajnerového stojiska</h1>
-    <div class="flex gap-10">
-      <div class="">
+    <div class="grid grid-cols-12 gap-16">
+      <div class="col-span-4">
         <Stepper :steps="steps" :activeStep="activeStep" @changeStep="changeStep"/>
       </div>
-      <div class="flex-1">
+      <div class="flex-1 col-span-8">
         <FormSection :activeStep="activeStep" @next="nextStep" @previous="previousStep" @submit="submitAll"/>
       </div>
     </div>
