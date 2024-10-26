@@ -50,6 +50,7 @@ import { reactive } from 'vue';
 import { useFormStore } from '@/stores/useFormStore';
 import NextButton from '~/components/NextButton.vue';
 import type { FormSubmitEvent } from '#ui/types';
+import { exampleUsage } from '~~/server/api/pdf/screenshot';
 
 const emit = defineEmits(['submit'])
 
@@ -70,7 +71,8 @@ type Schema = v.InferOutput<typeof step1Schema>
 
 const nextStep = async (event: FormSubmitEvent<Schema>) => {
   // Store the data back in the store
-  Object.assign(step1, event.data);
-  emit('submit')
+  // Object.assign(step1, event.data);
+  // emit('submit')
+  exampleUsage()
 };
 </script>
