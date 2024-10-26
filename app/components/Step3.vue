@@ -3,7 +3,7 @@
   <div>
     <h2 class="text-2xl mb-2">Select the Size of the Container Stand</h2>
     <p class="mb-6">The size of the container stand is chosen based on the number of residents in the apartment unit. Based on the specified number of residents, we have selected a recommended container stand for you.</p>
-    <UForm :schema="v.safeParser(step3Schema)" :state="buildingState" @submit="nextStep" @error="(e)=>{console.log(e)}"
+    <UForm ref="form" :schema="v.safeParser(step3Schema)" :state="buildingState" @submit="nextStep" @error="(e)=>{console.log(e)}"
            class="space-y-4 flex flex-col">
 
       <h2 class="text-2xl">Typ kontajnerového stojiska</h2>
@@ -25,7 +25,8 @@
       </UFormField>
 
       <h2 class="text-2xl">Umiestnenie kontajnerového stojiska</h2>
-      <UFormField label="" name="map" help="Umiestnite kontajnerové stojisko na zelenú časť mapy. Pomocou posuvníka pod mapou môžete zmeniť orientáciu kontajnerového stojiska.">
+      <p>Umiestnite kontajnerové stojisko na zelenú časť mapy. Pomocou posuvníka pod mapou môžete zmeniť orientáciu kontajnerového stojiska.</p>
+      <UFormField label="" name="map">
         <Map :container="selectedContainer.id" v-model="buildingState.map" :center="[17.150450, 48.157436]" />
       </UFormField>
 
@@ -49,7 +50,7 @@ const building = store.formData.building;
 const layout = store.formData.containerLayout;
 
 const buildingState = reactive({
-  map: []
+  map: undefined
 });
 
 const containerOptions = ref([
@@ -82,14 +83,26 @@ const containerOptions = ref([
 
 const selectedContainer = ref(containerOptions.value[0]);
 
+const form = useTemplateRef('form')
+
 watch(buildingState, async (newValue, oldValue) => {
-  const data = await $fetch('/api/checkPosition', {
-    method: 'POST',
-    body: {
-      boundingBox: newValue.map
+  try {
+    const data = await $fetch('/api/checkPosition', {
+      method: 'POST',
+      body: {
+        boundingBox: newValue.map
+      }
+    })
+    if(!data.valid) {
+      form.value.setErrors([{name: 'map', message: 'The selected location is not suitable for the container stand'}])
+      buildingState.map = undefined
+    } else {
+      form.value.setErrors([])
     }
-  })
-  console.log(data)
+  } catch (error) {
+    form.value.setErrors([{name: 'map', message: 'The selected location is not suitable for the container stand'}])
+    buildingState.map = undefined
+    }
 })
 
 const increment = (key) => {

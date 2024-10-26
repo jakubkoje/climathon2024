@@ -14,7 +14,6 @@ export default defineEventHandler(async (event) => {
                                               ST_SetSRID(ST_MakePoint(${boundingBox[4][0]}, ${boundingBox[4][1]}), 4326)
                                               ])) AS geom
     )
-
                    SELECT EXISTS (
                        SELECT 1
                        FROM lands_without_lines p, bbox
@@ -24,5 +23,5 @@ export default defineEventHandler(async (event) => {
     const result = await db.execute(query);
     const output = result.rows[0];
 
-    return { output };
+    return {valid: output.is_bbox_fully_contained};
 });

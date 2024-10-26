@@ -21,7 +21,7 @@ export const step2Schema = v.object({
 });
 
 export const step3Schema = v.object({
-    map: v.array(v.array(v.number())),
+    map: v.array(v.array(v.number()), 'The selected location is not suitable for the container stand'),
 });
 
 const bratislavaPostalCodes: string[] = [
