@@ -4,7 +4,7 @@
     map-id="map"
     :options="{
         style: 'mapbox://styles/jakubkoje/cm2pdg972007d01qwciof9hbn',
-        center: props.center,
+        center: initialCenter,
         zoom: 20
       }"
   />
@@ -16,6 +16,8 @@
 const props = defineProps<{ container: number, center: number[] }>();
 const model = defineModel()
 const rotation = ref(0);
+
+const initialCenter = [...props.center];
 
 const latitudeOffset = ref(0.00002703);
 const longitudeOffset = ref(0.00007243);

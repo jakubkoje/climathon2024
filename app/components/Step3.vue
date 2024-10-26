@@ -83,6 +83,16 @@ const containerOptions = ref([
 
 const selectedContainer = ref(containerOptions.value[0]);
 
+watch(buildingState, async (newValue, oldValue) => {
+  const data = await $fetch('/api/checkPosition', {
+    method: 'POST',
+    body: {
+      boundingBox: newValue.map
+    }
+  })
+  console.log(data)
+})
+
 const increment = (key) => {
   layout[key]++;
 };
