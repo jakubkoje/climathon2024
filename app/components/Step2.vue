@@ -20,6 +20,8 @@
             v-model="residentialState.postalCode"
             placeholder="Postal Code"
             @blur="onAddressChange"
+            name="address-1"
+            autocomplete="address-line1"
         />
       </UFormField>
 
@@ -41,6 +43,14 @@ import { reactive, ref } from 'vue';
 import { useFormStore } from '@/stores/useFormStore';
 import MapComponent from './MapComponent.vue';
 import { geocodeAddress } from '~/utils/geocode';
+import { MapboxAddressAutofill, MapboxSearchBox, MapboxGeocoder, config, autofill } from '@mapbox/search-js-web'
+onMounted(() => {
+// autofill({
+//   options: {
+//     country: 'sk'
+//   }
+// })
+  })
 
 const emit = defineEmits(['next', 'previous', 'submit'])
 
