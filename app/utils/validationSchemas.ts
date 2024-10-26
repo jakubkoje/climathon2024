@@ -21,8 +21,7 @@ export const step2Schema = v.object({
 });
 
 export const step3Schema = v.object({
-    address: v.pipe(v.string(), v.minLength(1, 'Address is required')),
-    postalCode: v.pipe(v.string(), v.minLength(5, 'Postal code must be at least 5 characters')),
+    map: v.array(v.array(v.number())),
 });
 
 const bratislavaPostalCodes: string[] = [

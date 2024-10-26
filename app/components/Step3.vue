@@ -3,7 +3,7 @@
   <div>
     <h2 class="text-2xl mb-2">Select the Size of the Container Stand</h2>
     <p class="mb-6">The size of the container stand is chosen based on the number of residents in the apartment unit. Based on the specified number of residents, we have selected a recommended container stand for you.</p>
-    <UForm :schema="v.safeParser(step3Schema)" :state="buildingState" @submit="nextStep"
+    <UForm :schema="v.safeParser(step3Schema)" :state="buildingState" @submit="nextStep" @error="(e)=>{console.log(e)}"
            class="space-y-4 flex flex-col">
 
       <h2 class="text-2xl">Typ kontajnerového stojiska</h2>
