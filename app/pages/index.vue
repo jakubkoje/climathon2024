@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-const {data} = await useFetch('/api/test', {server: false})
+const {data} = await useFetch('/api/waters', {server: false})
 watch(data, () => {
   console.log(data.value[0].geojson)
 })
