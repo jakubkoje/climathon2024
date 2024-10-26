@@ -24,7 +24,6 @@
       </UFormField>
 
       <div class="flex justify-end gap-2 mt-6">
-        <PreviousButton @click="previousStep"/>
         <NextButton/>
       </div>
     </UForm>
