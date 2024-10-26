@@ -1,52 +1,31 @@
+<!-- FormSection.vue -->
 <template>
-  <UForm :schema="v.safeParser(schema)" :state="state" class="space-y-4" @submit="onSubmit">
-    <!-- Email field with validation -->
-    <UFormField label="Email" name="email">
-      <UInput v-model="state.email" />
-    </UFormField>
-
-    <!-- Password field with validation -->
-    <UFormField label="Password" name="password">
-      <UInput v-model="state.password" type="password" />
-    </UFormField>
-
-    <!-- Submit button -->
-    <UButton type="submit">
-      Submit
-    </UButton>
-  </UForm>
+  <div>
+    <Step1 v-if="activeStep === 0" @submit="nextStep" />
+    <Step2 v-if="activeStep === 1" @submit="nextStep" />
+    <Step3 v-if="activeStep === 2" @submit="nextStep" />
+    <Step4 v-if="activeStep === 3" @submit="submitAll" />
+  </div>
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue'
-import * as v from 'valibot'
-import type { FormSubmitEvent } from '#ui/types'
+import Step1 from './Step1.vue';
+import Step2 from './Step2.vue';
+import Step3 from './Step3.vue';
+import Step4 from './Step4.vue';
 
-// Define the validation schema using valibot
-const schema = v.object({
-  email: v.pipe(v.string(), v.email('Invalid email')),  // email must be a valid email string
-  password: v.pipe(v.string(), v.minLength(8, 'Must be at least 8 characters'))  // password with minimum length of 8
-})
+const props = defineProps(['activeStep']);
+const emit = defineEmits(['next', 'previous', 'submit']);
 
-// Infer the TypeScript type from the schema for type safety
-type Schema = v.InferOutput<typeof schema>
+const nextStep = () => {
+  emit('next');
+};
 
-// Reactive state for the form fields
-const state = reactive<Partial<Schema>>({
-  email: '',
-  password: ''
-})
+const previousStep = () => {
+  emit('previous');
+};
 
-// Toast setup for user feedback
-const toast = useToast()
-
-// Form submission handler
-async function onSubmit(event: FormSubmitEvent<Schema>) {
-  toast.add({
-    title: 'Success',
-    description: 'The form has been submitted.',
-    color: 'success'
-  })
-  console.log(event.data) // Log the form data on successful submission
-}
+const submitAll = () => {
+  emit('submit');
+};
 </script>

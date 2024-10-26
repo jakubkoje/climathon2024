@@ -5,12 +5,7 @@ export default defineNuxtConfig({
   future: {
     compatibilityVersion: 4,
   },
-  modules: [
-    '@nuxt/ui',
-    '@nuxt/devtools',
-    '@nuxtjs/leaflet',
-    'nuxt-mapbox',
-  ],
+  modules: ['@nuxt/ui', '@nuxt/devtools', '@nuxtjs/leaflet', 'nuxt-mapbox', '@pinia/nuxt'],
   mapbox: {
     accessToken: 'pk.eyJ1IjoiamFrdWJrb2plIiwiYSI6ImNraW00cDJmdzBvYjczMXA5dzJwZHRyY20ifQ.yk8SaFKG2QFChkFWgZaCEA'
   },

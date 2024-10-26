@@ -2,53 +2,59 @@
   <div class="bg-white w-full h-full text-black">
     <h1 class="text-3xl py-16">Žiadost o zmenu kontajnerového stojiska</h1>
     <div class="flex gap-10">
-      <div class="p-10 w-1/2">
+      <div class="">
         <Stepper :steps="steps" :activeStep="activeStep" @changeStep="changeStep"/>
       </div>
-      <div class="form-content w-1/2">
-        <h2>{{ steps[activeStep].title }}</h2>
-        <FormSection :activeStep="activeStep" @next="nextStep" @previous="previousStep"/>
+      <div class="">
+        <FormSection :activeStep="activeStep" @next="nextStep" @previous="previousStep" @submit="submitAll"/>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import Stepper from '~/components/Stepper.vue'
-import FormSection from '~/components/FormSection.vue'
+import { ref } from 'vue';
+import { useFormStore } from '~/stores/useFormStore';
+import Stepper from '~/components/Stepper.vue';
+import FormSection from '~/components/FormSection.vue';
 
-interface Step {
-  title: string
-}
+const formStore = useFormStore();
 
 // Steps for the sidebar
-const steps: Step[] = [
-  { title: 'Druh priznania' },
-  { title: 'Údaje o daňovnikovi' },
-  { title: 'Daň z pozemkov' },
-  { title: 'Daň zo stavieb (stavba slúžiaca na jeden účel)' },
-  { title: 'Daň zo stavieb (stavba slúžiaca na viaceré účely)' },
-  { title: 'Daň z bytov a z nebytových priestorov (v bytovom dome)' },
-  { title: 'Zníženie alebo oslobodenie od dane' },
-  { title: 'Sumár' }
-]
+const steps = [
+  { title: 'Information about the Administrator of the building' },
+  { title: 'Information about the building' },
+  { title: 'Vyberte Velkost stojiskoveho kontajnera' },
+  { title: 'Recapitulation' },
+];
 
 // Active step tracker
-const activeStep = ref(0)
+const activeStep = ref(formStore.currentStep);
 
 // Change the current step
 const changeStep = (index: number) => {
-  activeStep.value = index
-}
+  activeStep.value = index;
+  formStore.currentStep = index;
+};
 
 // Go to the next step
 const nextStep = () => {
-  if (activeStep.value < steps.length - 1) activeStep.value++
-}
+  if (activeStep.value < steps.length - 1) {
+    activeStep.value++;
+    formStore.nextStep();
+  }
+};
 
 // Go to the previous step
 const previousStep = () => {
-  if (activeStep.value > 0) activeStep.value--
-}
+  if (activeStep.value > 0) {
+    activeStep.value--;
+    formStore.previousStep();
+  }
+};
+
+// Submit
+const submitAll = () => {
+  console.log(formStore.formData)
+};
 </script>
