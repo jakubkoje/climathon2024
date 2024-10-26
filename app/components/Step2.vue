@@ -24,7 +24,7 @@
         />
       </UFormField>
 
-      <div class="flex justify-end gap-2 mt-6">
+      <div class="flex justify-end gap-2 mt-6 p-4">
         <button
             type="button"
             @click="previousStep"
