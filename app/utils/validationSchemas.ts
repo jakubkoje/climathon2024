@@ -16,7 +16,7 @@ export const step2Schema = v.object({
     postalCode: v.pipe(
         v.string(),
         v.minLength(5, 'Postal code is invalid'),
-        v.custom((code: string) => bratislavaPostalCodes.includes(code) || 'Postal code must be a valid Bratislava postal code')
+        //v.custom((code: string) => bratislavaPostalCodes.includes(code) || 'Postal code must be a valid Bratislava postal code')
     )
 });
 
