@@ -1,11 +1,13 @@
 <!-- components/Step3.vue -->
 <template>
   <div>
-    <h2 class="text-2xl font-bold mb-2">Vyberte si typ a umiestnenie kontajnerového stojiska</h2>
-    <p class="mb-6">Veľkosť kontajnerového stojiska sa vyberá podľa počtu obyvateľov v bytovej jednotke. Na základe zadaného počtu obyvateľov sme pre vás vybrali odporúčané kontajnerové stojisko.</p>
-    <UForm :schema="v.safeParser(step3Schema)" :state="buildingState" @submit="submitStep" class="space-y-4 flex flex-col">
+    <h2 class="text-2xl mb-2">Select the Size of the Container Stand</h2>
+    <p class="mb-6">The size of the container stand is chosen based on the number of residents in the apartment unit. Based on the specified number of residents, we have selected a recommended container stand for you.</p>
+    <UForm :schema="v.safeParser(step3Schema)" :state="buildingState" @submit="nextStep"
+           class="space-y-4 flex flex-col">
 
-      <UFormField label="Typ kontajnerového stojiska" name="container">
+      <h2 class="text-2xl">Typ kontajnerového stojiska</h2>
+      <UFormField label="" name="container">
       <UCard v-for="container in containerOptions" :key="container.id" @click="selectedContainer = container" class="mb-4 hover:bg-gray-50 cursor-pointer" :class="{'bg-green-100 hover:bg-green-100': selectedContainer.id === container.id}">
         <div class="flex gap-8 items-center">
           <img :src="container.image" class="rounded-md size-32 object-contain" />
@@ -22,10 +24,15 @@
       </UCard>
       </UFormField>
 
-      <UFormField label="Umiestnenie kontajnerového stojiska" name="map" help="Umiestnite kontajnerové stojisko na zelenú časť mapy. Pomocou posuvníka pod mapou môžete zmeniť orientáciu kontajnerového stojiska.">
+      <h2 class="text-2xl">Umiestnenie kontajnerového stojiska</h2>
+      <UFormField label="" name="map" help="Umiestnite kontajnerové stojisko na zelenú časť mapy. Pomocou posuvníka pod mapou môžete zmeniť orientáciu kontajnerového stojiska.">
         <Map :container="selectedContainer.id" v-model="buildingState.map" :center="[17.150450, 48.157436]" />
       </UFormField>
-      <UButton type="submit">Next Step</UButton>
+
+      <div class="flex justify-end gap-2 mt-6">
+        <PreviousButton @click="previousStep"/>
+        <NextButton/>
+      </div>
     </UForm>
   </div>
 </template>
@@ -34,6 +41,9 @@
 import * as v from 'valibot';
 import { reactive } from 'vue';
 import { useFormStore } from '@/stores/useFormStore';
+import type { FormSubmitEvent } from '#ui/types';
+
+const emit = defineEmits(['submit', 'previous'])
 
 const store = useFormStore();
 const building = store.formData.building;
@@ -81,8 +91,15 @@ const decrement = (key) => {
   if (layout[key] > 0) layout[key]--;
 };
 
-const submitStep = async (event) => {
+const previousStep = () => {
+  emit('previous')
+}
+
+type Schema = v.InferOutput<typeof step3Schema>
+
+const nextStep = async (event: FormSubmitEvent<Schema>) => {
   // Store the data back in the store
   Object.assign(building, buildingState);
+  emit('submit')
 };
 </script>
