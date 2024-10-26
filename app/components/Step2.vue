@@ -75,7 +75,6 @@ const previousStep = () => {
 }
 
 const submitStep = async (event) => {
-  // Store the data back in the store
   Object.assign(residential, event.data);
 };
 </script>
@@ -84,13 +83,5 @@ const submitStep = async (event) => {
 .error {
   color: red;
   margin-top: 10px;
-}
-
-.prev-button {
-  border: 1px solid #F4CDCA;
-}
-
-.next-button {
-  background-color: #F4CDCA;
 }
 </style>
