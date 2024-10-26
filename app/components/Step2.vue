@@ -1,7 +1,6 @@
-<!-- components/Step2.vue -->
 <template>
-  <div class="flex flex-col gap-10">
-    <h2>Residential Information</h2>
+  <div class="flex flex-col gap-4">
+    <h2 class="text-2xl">Residential Information</h2>
     <UForm
         :schema="v.safeParser(step2Schema)"
         :state="residentialState"
@@ -24,24 +23,9 @@
         />
       </UFormField>
 
-      <div class="flex justify-end gap-2 mt-6 p-4">
-        <button
-            type="button"
-            @click="previousStep"
-            class="flex items-center prev-button px-4 py-2 rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-red-300"
-        >
-          <span class="mr-2">&larr;</span>
-          Previous step
-        </button>
-
-        <button
-            type="button"
-            @click="nextStep"
-            class="flex items-center next-button px-4 py-2 rounded-lg text-black focus:outline-none focus:ring-2"
-        >
-          Next step
-          <span class="ml-2">&rarr;</span>
-        </button>
+      <div class="flex justify-end gap-2 mt-6">
+        <PreviousButton @click="previousStep" />
+        <NextButton />
       </div>
     </UForm>
 
@@ -57,6 +41,8 @@ import { reactive, ref } from 'vue';
 import { useFormStore } from '@/stores/useFormStore';
 import MapComponent from './MapComponent.vue';
 import { geocodeAddress } from '~/utils/geocode';
+
+const emit = defineEmits(['next', 'previous', 'submit'])
 
 const store = useFormStore();
 const residential = store.formData.residential;
@@ -84,12 +70,8 @@ const onAddressChange = async () => {
   }
 };
 
-const nextStep = () => {
-
-}
-
 const previousStep = () => {
-
+  emit('previous')
 }
 
 const submitStep = async (event) => {

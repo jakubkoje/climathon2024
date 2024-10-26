@@ -3,7 +3,7 @@
     <div
         v-for="(step, index) in steps"
         :key="index"
-        class="flex items-center gap-4 cursor-pointer"
+        class="flex items-center gap-4 cursor-pointer w-max"
         @click="$emit('changeStep', index)"
     >
       <div
@@ -11,7 +11,7 @@
           `${index == activeStep ? 'text-white bg-black': 'text-black bg-white'}`)">
         {{ index + 1 }}
       </div>
-      <div class="text-xl">{{ step.title }}</div>
+      <div class="text-base">{{ step.title }}</div>
     </div>
   </div>
 </template>
