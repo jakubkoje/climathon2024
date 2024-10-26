@@ -15,10 +15,11 @@
 </template>
 
 <script setup lang="ts">
-const {data} = await useFetch('/api/waters', {server: false})
-watch(data, () => {
-  console.log(data.value[0].geojson)
+const {data, error} = await useFetch('/api/waters', {
+  body: { x: 48.158005, y: 17.147278, minimumDistance: 40 },
 })
+
+console.log("Log: ", data);
 
 const onMapClick = (e: any) => {
   console.log(e.lngLat)

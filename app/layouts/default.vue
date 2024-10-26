@@ -1,5 +1,7 @@
 <template>
   <div>
-    <slot />
+    <UContainer>
+      <slot/>
+    </UContainer>
   </div>
 </template>
