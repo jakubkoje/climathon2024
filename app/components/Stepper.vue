@@ -1,9 +1,9 @@
 <template>
-  <div class="flex flex-col gap-4">
+  <div class="flex flex-col gap-4 flex-wrap">
     <div
         v-for="(step, index) in steps"
         :key="index"
-        class="flex items-center gap-4 cursor-pointer w-max"
+        class="flex items-center gap-4 cursor-pointer"
         @click="$emit('changeStep', index)"
     >
       <div
