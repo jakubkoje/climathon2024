@@ -15,9 +15,6 @@
           </p>
           <p><strong>Email:</strong> {{ store.formData.step1.email }}</p>
           <p><strong>Phone number:</strong> {{ store.formData.step1.phone }}</p>
-          <button class="absolute top-4 right-4 text-pink-500 hover:text-pink-600">
-            ✏️
-          </button>
         </div>
       </UCard>
 
@@ -29,10 +26,6 @@
             {{ store.formData.building.address }}<br />
             {{ store.formData.building.postalCode }}
           </p>
-          <p><strong>Number of residents:</strong> 150</p>
-          <button class="absolute top-4 right-4 text-pink-500 hover:text-pink-600">
-            ✏️
-          </button>
         </div>
       </UCard>
 
@@ -55,9 +48,6 @@
           <a href="https://maps.google.com" class="text-blue-500 text-sm">
             https://maps.google.com
           </a>
-          <button class="absolute top-4 right-4 text-pink-500 hover:text-pink-600">
-            ✏️
-          </button>
         </div>
       </UCard>
 
