@@ -5,13 +5,14 @@
     <UForm :schema="v.safeParser(step3Schema)" :state="buildingState" @submit="submitStep" class="space-y-4">
       <UFormField label="Address" name="address">
         <UInput v-model="buildingState.address" placeholder="Address" />
+        <template #error="{error}">{{ error ?? '&nbsp;'}}</template>
       </UFormField>
 
       <UFormField label="Postal Code" name="postalCode">
         <UInput v-model="buildingState.postalCode" placeholder="Postal Code" />
       </UFormField>
 
-      <h3>Current Layout of Containers</h3>
+      <h3>Select the Size of the Container Stand</h3>
       <label>
         1100L:
         <button @click="decrement('container1100L')">-</button>

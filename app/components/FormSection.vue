@@ -2,9 +2,9 @@
 <template>
   <div>
     <Step1 v-if="activeStep === 0" @submit="nextStep" />
-    <Step2 v-if="activeStep === 1" @submit="nextStep" />
-    <Step3 v-if="activeStep === 2" @submit="nextStep" />
-    <Step4 v-if="activeStep === 3" @submit="submitAll" />
+    <Step2 v-if="activeStep === 1" @previous="previousStep" @submit="nextStep" />
+    <Step3 v-if="activeStep === 2" @previous="previousStep" @submit="nextStep" />
+    <Step4 v-if="activeStep === 3" @previous="previousStep" @submit="submitAll" />
   </div>
 </template>
 
