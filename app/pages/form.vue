@@ -24,7 +24,7 @@ const formStore = useFormStore();
 const steps = [
   { title: 'Information about the Administrator of the building' },
   { title: 'Information about the building' },
-  { title: 'Vyberte Velkost stojiskoveho kontajnera' },
+  { title: 'Select size of the garbage stand' },
   { title: 'Recapitulation' },
 ];
 

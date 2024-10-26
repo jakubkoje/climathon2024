@@ -4,11 +4,11 @@
     <h2>Information about the Building</h2>
     <UForm :schema="v.safeParser(step3Schema)" :state="buildingState" @submit="submitStep" class="space-y-4">
       <UFormField label="Address" name="address">
-        <UInput v-model="building.address" placeholder="Address" />
+        <UInput v-model="buildingState.address" placeholder="Address" />
       </UFormField>
 
       <UFormField label="Postal Code" name="postalCode">
-        <UInput v-model="building.postalCode" placeholder="Postal Code" />
+        <UInput v-model="buildingState.postalCode" placeholder="Postal Code" />
       </UFormField>
 
       <h3>Current Layout of Containers</h3>
@@ -31,13 +31,14 @@
         <button @click="increment('container120L')">+</button>
       </label>
 
-      <UButton type="submit">Next</UButton>
+      <UButton type="submit">Next Step</UButton>
     </UForm>
   </div>
 </template>
 
 <script setup lang="ts">
 import * as v from 'valibot';
+import { reactive } from 'vue';
 import { useFormStore } from '@/stores/useFormStore';
 
 const store = useFormStore();
@@ -59,6 +60,6 @@ const decrement = (key) => {
 
 const submitStep = async (event) => {
   // Store the data back in the store
-  Object.assign(building, event.data);
+  Object.assign(building, buildingState);
 };
 </script>

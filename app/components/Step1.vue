@@ -1,45 +1,68 @@
 <!-- components/Step1.vue -->
 <template>
   <div>
-    <h2>Information about the Administrator of the building</h2>
-    <UForm :schema="v.safeParser(step1Schema)" :state="adminState" @submit="submitStep" class="space-y-4">
-      <UFormField label="First Name" name="firstName">
-        <UInput v-model="admin.firstName" placeholder="First Name"/>
-      </UFormField>
+    <UForm :schema="v.safeParser(step1Schema)" :state="firstStepState" @submit="nextStep" class="space-y-4">
+      <div class="flex flex-col gap-10">
+        <div>
+          <h2 class="text-lg">Information about the Administrator of the Building</h2>
+          <div class="flex">
+            <UFormField label="First Name" name="firstName">
+              <UInput v-model="firstStepState.firstName" placeholder="First Name"/>
+            </UFormField>
+            <UFormField label="Last Name" name="lastName">
+              <UInput v-model="firstStepState.lastName" placeholder="Last Name"/>
+            </UFormField>
+          </div>
 
-      <UFormField label="Last Name" name="lastName">
-        <UInput v-model="admin.lastName" placeholder="Last Name"/>
-      </UFormField>
+          <UFormField label="Email" name="email">
+            <UInput v-model="firstStepState.email" type="email" placeholder="Email"/>
+          </UFormField>
 
-      <UFormField label="Email" name="email">
-        <UInput v-model="admin.email" type="email" placeholder="Email"/>
-      </UFormField>
+          <UFormField label="Phone Number" name="phone">
+            <UInput v-model="firstStepState.phone" type="tel" placeholder="Phone Number"/>
+          </UFormField>
+        </div>
+        <div>
+          <h2>Residential Info</h2>
+          <UFormField label="Address" name="address">
+            <UInput v-model="firstStepState.address" placeholder="Address"/>
+          </UFormField>
 
-      <UFormField label="Phone Number" name="phone">
-        <UInput v-model="admin.phone" type="tel" placeholder="Phone"/>
-      </UFormField>
+          <UFormField label="City" name="city">
+            <UInput v-model="firstStepState.city" placeholder="City"/>
+          </UFormField>
 
-      <UButton type="submit">Next</UButton>
+          <UFormField label="Postal Code" name="postalCode">
+            <UInput v-model="firstStepState.postalCode" placeholder="Postal Code"/>
+          </UFormField>
+        </div>
+      </div>
+
+      <UButton type="submit">Next Step</UButton>
     </UForm>
   </div>
 </template>
 
 <script setup lang="ts">
 import * as v from 'valibot';
+import { reactive } from 'vue';
 import { useFormStore } from '@/stores/useFormStore';
 
 const store = useFormStore();
-const admin = store.formData.administrator;
+const step1 = store.formData.step1;
 
-const adminState = reactive({
-  firstName: admin.firstName,
-  lastName: admin.lastName,
-  email: admin.email,
-  phone: admin.phone
+const firstStepState = reactive({
+  firstName: step1.firstName,
+  lastName: step1.lastName,
+  email: step1.email,
+  phone: step1.phone,
+  address: step1.address,
+  city: step1.city,
+  postalCode: step1.postalCode
 });
 
-const submitStep = async (event) => {
+const nextStep = async (event) => {
   // Store the data back in the store
-  Object.assign(admin, event.data);
+  Object.assign(step1, firstStepState);
 };
 </script>

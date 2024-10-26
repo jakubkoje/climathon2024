@@ -5,7 +5,10 @@ export const step1Schema = v.object({
     firstName: v.pipe(v.string(), v.minLength(1, 'First name is required')),
     lastName: v.pipe(v.string(), v.minLength(1, 'Last name is required')),
     email: v.pipe(v.string(), v.email('Invalid email')),
-    phone: v.pipe(v.string(), v.minLength(10, 'Phone number must be at least 10 characters')),
+    phone: v.pipe(v.string(), v.regex(/^[+]{1}(?:[0-9\-\\(\\)\\/.]\s?){6,15}[0-9]{1}$/, 'Phone number has an invalid format')),
+    address: v.pipe(v.string(), v.minLength(1, 'Address is required')),
+    city: v.pipe(v.string(), v.minLength(1, 'City is required')),
+    postalCode: v.pipe(v.string(), v.regex(/^\d{5}$/, 'Invalid postal code')),
 });
 
 export const step2Schema = v.object({

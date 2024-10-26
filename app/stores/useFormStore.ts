@@ -5,17 +5,21 @@ export const useFormStore = defineStore('form', () => {
     const currentStep = ref(0);
 
     const formData = ref({
-        administrator: {
+        step1: {
             firstName: '',
             lastName: '',
             email: '',
-            phone: ''
+            phone: '',
+            address: '',
+            city: '',
+            postalCode: ''
         },
         step2: {
             address: '',
             postal_code: '',
         },
         residential: {
+            phone: '',
             address: '',
             city: '',
             postalCode: ''
@@ -45,13 +49,21 @@ export const useFormStore = defineStore('form', () => {
     const resetForm = () => {
         currentStep.value = 0;
         formData.value = {
-            administrator: {
+            step1: {
                 firstName: '',
                 lastName: '',
                 email: '',
-                phone: ''
+                phone: '',
+                address: '',
+                city: '',
+                postalCode: ''
+            },
+            step2: {
+                address: '',
+                postal_code: '',
             },
             residential: {
+                phone: '',
                 address: '',
                 city: '',
                 postalCode: ''
