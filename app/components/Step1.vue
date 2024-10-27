@@ -73,6 +73,5 @@ const nextStep = async (event: FormSubmitEvent<Schema>) => {
   // Store the data back in the store
   Object.assign(step1, event.data);
   emit('submit')
-  // exampleUsage()
 };
 </script>

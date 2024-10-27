@@ -1,4 +1,3 @@
-<!-- components/Step3.vue -->
 <template>
   <div>
     <h2 class="text-2xl mb-2">Select the Size of the Container Stand</h2>
@@ -6,26 +5,26 @@
     <UForm ref="form" :schema="v.safeParser(step3Schema)" :state="buildingState" @submit="nextStep" @error="(e)=>{console.log(e)}"
            class="space-y-4 flex flex-col">
 
-      <h2 class="text-2xl">Typ kontajnerového stojiska</h2>
+      <h2 class="text-2xl">Type of Container Stand</h2>
       <UFormField label="" name="container">
-      <UCard v-for="container in containerOptions" :key="container.id" @click="selectedContainer = container" class="mb-4 hover:bg-gray-50 cursor-pointer" :class="{'bg-green-100 hover:bg-green-100': selectedContainer.id === container.id}">
-        <div class="flex gap-8 items-center">
-          <img :src="container.image" class="rounded-md size-32 object-contain" />
-          <div>
-            <h3 class="text-xl font-bold">
-              {{container.title}}
-            </h3>
-            <div v-html="container.description" />
+        <UCard v-for="container in containerOptions" :key="container.id" @click="selectedContainer = container" class="mb-4 hover:bg-gray-50 cursor-pointer" :class="{'bg-green-100 hover:bg-green-100': selectedContainer.id === container.id}">
+          <div class="flex gap-8 items-center">
+            <img :src="container.image" class="rounded-md size-32 object-contain" />
+            <div>
+              <h3 class="text-xl font-bold">
+                {{container.title}}
+              </h3>
+              <div v-html="container.description" />
+            </div>
+            <div class="ml-auto" v-if="selectedContainer.id === container.id">
+              <UIcon name="i-heroicons-check-circle" class="text-green-500 size-12" />
+            </div>
           </div>
-          <div class="ml-auto" v-if="selectedContainer.id === container.id">
-            <UIcon name="i-heroicons-check-circle" class="text-green-500 size-12" />
-          </div>
-        </div>
-      </UCard>
+        </UCard>
       </UFormField>
 
-      <h2 class="text-2xl">Umiestnenie kontajnerového stojiska</h2>
-      <p>Umiestnite kontajnerové stojisko na zelenú časť mapy. Pomocou posuvníka pod mapou môžete zmeniť orientáciu kontajnerového stojiska.</p>
+      <h2 class="text-2xl">Location of the Container Stand</h2>
+      <p>Place the container stand on the green part of the map. You can use the slider below the map to change the orientation of the container stand.</p>
       <UFormField label="" name="map">
         <Map :container="selectedContainer.id" v-model="buildingState.map" :center="store.formData.step2.address.center" />
       </UFormField>
@@ -42,6 +41,7 @@ import * as v from 'valibot';
 import { reactive } from 'vue';
 import { useFormStore } from '@/stores/useFormStore';
 import type { FormSubmitEvent } from '#ui/types';
+import {exampleUsage} from "~~/server/api/pdf/screenshot";
 
 const emit = defineEmits(['submit', 'previous'])
 
@@ -54,30 +54,30 @@ const buildingState = reactive({
 });
 
 const containerOptions = ref([
-  { id: 1, image: '/sm.png', title: 'Kapacita CA 60 Obyvateľov (5m x 3m)', description: `<ul class="list-disc list-inside">
-              <li>1x 1100L komunálny odpad</li>
-              <li>1x 1100L papier</li>
-              <li>1x 1100L plast</li>
-              <li>1x sklo</li>
+  { id: 1, image: '/sm.png', title: 'Capacity Approx. 60 Residents (5m x 3m)', description: `<ul class="list-disc list-inside">
+              <li>1x 1100L municipal waste</li>
+              <li>1x 1100L paper</li>
+              <li>1x 1100L plastic</li>
+              <li>1x glass</li>
             </ul>` },
-  { id: 2, image: '/md.png', title: 'Kapacita CA 150 Obyvateľov (5.5m x 3.5m)', description: `<ul class="list-disc list-inside">
-              <li>2x 1100L komunálny odpad</li>
-              <li>1x 1100L papier</li>
-              <li>1x 1100L plast</li>
-              <li>1x sklo</li>
+  { id: 2, image: '/md.png', title: 'Capacity Approx. 150 Residents (5.5m x 3.5m)', description: `<ul class="list-disc list-inside">
+              <li>2x 1100L municipal waste</li>
+              <li>1x 1100L paper</li>
+              <li>1x 1100L plastic</li>
+              <li>1x glass</li>
             </ul>` },
-  { id: 3, image: '/lg.png', title: 'Kapacita CA 200 Obyvateľov (6m x 4m)', description: `<ul class="list-disc list-inside">
-              <li>2x 1100L komunálny odpad</li>
-              <li>2x 1100L papier</li>
-              <li>2x 1100L plast</li>
-              <li>1x sklo</li>
+  { id: 3, image: '/lg.png', title: 'Capacity Approx. 200 Residents (6m x 4m)', description: `<ul class="list-disc list-inside">
+              <li>2x 1100L municipal waste</li>
+              <li>2x 1100L paper</li>
+              <li>2x 1100L plastic</li>
+              <li>1x glass</li>
             </ul>` },
-  { id: 4, image: '/xl.png', title: 'Kapacita CA 200 Obyvateľov (6.5m x 4.5m)', description: `<ul class="list-disc list-inside">
-              <li>2x 1100L komunálny odpad</li>
-              <li>2x 1100L papier</li>
-              <li>2x 1100L plast</li>
-              <li>1x sklo</li>
-              <li>1x textil</li>
+  { id: 4, image: '/xl.png', title: 'Capacity Approx. 200 Residents (6.5m x 4.5m)', description: `<ul class="list-disc list-inside">
+              <li>2x 1100L municipal waste</li>
+              <li>2x 1100L paper</li>
+              <li>2x 1100L plastic</li>
+              <li>1x glass</li>
+              <li>1x textile</li>
             </ul>` },
 ]);
 
@@ -102,7 +102,7 @@ watch(buildingState, async (newValue, oldValue) => {
   } catch (error) {
     form.value.setErrors([{name: 'map', message: 'The selected location is not suitable for the container stand'}])
     buildingState.map = undefined
-    }
+  }
 })
 
 const increment = (key) => {
