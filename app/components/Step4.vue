@@ -23,7 +23,7 @@
           <h3 class="text-lg font-semibold mb-2">Information about the building</h3>
           <p>
             <strong>Address:</strong><br />
-            {{ store.formData.building.address }}<br />
+            {{ store.formData.step2.address.place_name }}<br />
             {{ store.formData.building.postalCode }}
           </p>
         </div>
@@ -32,7 +32,7 @@
       <UCard class="m-2 mb-4 bg-gray-50 border-none	">
         <div class="flex gap-8 flex-col">
           <h3 class="text-lg font-semibold mb-2">Selected Container</h3>
-          <p><strong>Container type:</strong> {{ store.formData.recommendedOptions.selectedContainer }}</p>
+          <p><strong>Container type:</strong> {{ store.formData.containerLayout }}</p>
           <p><strong>Position of the container:</strong></p>
           <div class="border border-gray-300 rounded-lg overflow-hidden mb-2">
             <img
