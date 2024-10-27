@@ -32,7 +32,6 @@
       <UCard class="m-2 mb-4 bg-gray-50 border-none	">
         <div class="flex gap-8 flex-col">
           <h3 class="text-lg font-semibold mb-2">Selected Container</h3>
-          <p><strong>Container type:</strong> {{ store.formData.containerLayout }}</p>
           <p><strong>Position of the container:</strong></p>
           <div class="border border-gray-300 rounded-lg overflow-hidden mb-2">
             <img
@@ -41,13 +40,6 @@
                 class="w-full"
             />
           </div>
-          <div class="flex justify-between text-sm">
-            <p><strong>Lat:</strong> 42.3124</p>
-            <p><strong>Lng:</strong> 22.3143</p>
-          </div>
-          <a href="https://maps.google.com" class="text-blue-500 text-sm">
-            https://maps.google.com
-          </a>
         </div>
       </UCard>
 
@@ -75,8 +67,25 @@ const submitStep = () => {
   console.log('Final Submission:', store.formData);
 };
 
-const saveRequest = () => {
+const saveRequest = async () => {
+  try {
+    const response = await $fetch('/api/storage', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ imageUrl: imageUrl }),
+    });
 
+    if (!response.ok) {
+      throw new Error('Failed to save request');
+    }
+
+    const result = await response.json();
+    console.log('Request saved:', result);
+  } catch (error) {
+    console.error('Error saving request:', error);
+  }
 };
 
 const sendEmail = () => {
