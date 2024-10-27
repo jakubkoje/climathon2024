@@ -44,13 +44,9 @@
 
       <div class="flex justify-end gap-2 mt-6">
         <UButton @click="saveRequest"
-                 :ui="{ base: 'bg-white hover:bg-neutral-100 hover:opacity-80 h-[2.5rem] px-8 text-black border border-2 border-[#F4CDCA]'}">
-          Save request
-        </UButton>
-        <UButton @click="sendEmail"
                  :ui="{ base: 'bg-[#F4CDCA] hover:bg-[#F4CDCA] hover:opacity-80 h-[2.5rem] px-8 text-black'}"
                  type="submit">
-          Save and send via email
+          Export as pdf
           <span class="ml-2">&rarr;</span>
         </UButton>
       </div>
