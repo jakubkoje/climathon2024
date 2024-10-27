@@ -7,6 +7,18 @@ export default defineEventHandler(async (event) => {
   const requestData = await readBody(event);
   console.log(requestData)
 
+  if (requestData?.formData?.building?.map && requestData.formData.building.map.length ) {
+    const data = requestData.formData.building.map
+
+    let helper = { ...data }      ;
+
+    console.log(helper)
+
+
+    requestData.formData.building.map = helper
+  }
+
+
   // const body = await readMultipartFormData(event);
 
   // Assume the image file is the first item in form data
