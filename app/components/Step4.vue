@@ -74,7 +74,7 @@ const saveRequest = async () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ imageUrl: imageUrl }),
+      body: JSON.stringify({ imageUrl: imageUrl, formData: store.formData }),
     });
 
     if (!response.ok) {
