@@ -16,6 +16,14 @@ export default defineNuxtConfig({
   runtimeConfig: {
     drizzle: {
       databaseUrl: 'postgresql://postgres:postgres@188.245.91.0:5432/postgres'
+    },
+    firebase: {
+      apiKey: "AIzaSyCx7IV5CKwvEqDhdEGAs_PwaHvX0mktweM",
+      authDomain: "climathon2024-73064.firebaseapp.com",
+      projectId: "climathon2024-73064",
+      storageBucket: "climathon2024-73064.appspot.com",
+      messagingSenderId: "178277372862",
+      appId: "1:178277372862:web:3d5c58a1cc1701045a9fef"
     }
   }
 })
