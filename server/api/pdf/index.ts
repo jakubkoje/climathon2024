@@ -11,7 +11,7 @@ import htmlPdfNode from 'html-pdf-node'
 
 const getHTML = async () => {
   return new Promise((resolve, reject) => {
-    fs.readFile('app/pages/pdf.vue', 'utf8', (err, data) => {
+    fs.readFile('server/pdf.html', 'utf8', (err, data) => {
       if (err) {
         return reject(err);
       }
@@ -28,8 +28,8 @@ export default defineEventHandler(async (event) => {
   };
   
 
-  const content = html
-  // const content = await getHTML()
+  // const content = html
+  const content = await getHTML()
 
   console.log(content)
   // return content
@@ -42,7 +42,7 @@ export default defineEventHandler(async (event) => {
   });
 
   
-    return html
+    return content
   });
 
 
