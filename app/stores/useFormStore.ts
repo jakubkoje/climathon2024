@@ -18,8 +18,7 @@ export const useFormStore = defineStore('form', () => {
             address: undefined,
         },
         building: {
-            address: '',
-            postalCode: ''
+            map: undefined,
         },
         containerLayout: {
             container1100L: 0,

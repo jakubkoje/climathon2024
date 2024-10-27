@@ -67,6 +67,7 @@
 <script setup lang="ts">
 import { useFormStore } from '@/stores/useFormStore';
 import * as v from "valibot";
+import GeoJSON from "geojson";
 
 const store = useFormStore();
 
@@ -81,6 +82,16 @@ const saveRequest = () => {
 const sendEmail = () => {
 
 };
+
+const { public: { mapbox: { accessToken } } } = useRuntimeConfig();
+
+// https://api.mapbox.com/styles/v1/mapbox/streets-v12/static/geojson({"type":"FeatureCollection","features":[{"type":"Feature","properties":{},"geometry":{"coordinates":[[[17.149888834217904,48.158094410545345],[17.149888834217904,48.15709656033857],[17.1524243341743,48.15709656033857],[17.1524243341743,48.158094410545345],[17.149888834217904,48.158094410545345]]],"type":"Polygon"}}]})/auto/500x300?access_token=pk.eyJ1IjoiamFrdWJrb2plIiwiYSI6ImNraW00cDJmdzBvYjczMXA5dzJwZHRyY20ifQ.yk8SaFKG2QFChkFWgZaCEA
+const imageUrl = `https://api.mapbox.com/styles/v1/mapbox/streets-v12/static/geojson(${encodeURI(JSON.stringify(GeoJSON.parse({
+    boundingBox: [toRaw(store.formData.building.map)]
+  },
+  {
+    Polygon: 'boundingBox'
+  })))})/auto/1280x853?access_token=${accessToken}`;
 </script>
 
 <style scoped></style>

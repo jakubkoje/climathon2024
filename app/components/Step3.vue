@@ -50,7 +50,7 @@ const building = store.formData.building;
 const layout = store.formData.containerLayout;
 
 const buildingState = reactive({
-  map: undefined
+  map: building.map
 });
 
 const containerOptions = ref([
@@ -121,7 +121,8 @@ type Schema = v.InferOutput<typeof step3Schema>
 
 const nextStep = async (event: FormSubmitEvent<Schema>) => {
   // Store the data back in the store
-  Object.assign(building, buildingState);
+  Object.assign(building, event.data);
+  console.log(event.data)
   emit('submit')
 };
 </script>
