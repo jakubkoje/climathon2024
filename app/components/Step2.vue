@@ -22,23 +22,11 @@
 
 <script setup lang="ts">
 import * as v from 'valibot';
-import { reactive, ref } from 'vue';
+import { reactive } from 'vue';
 import { useFormStore } from '@/stores/useFormStore';
-import MapComponent from './MapComponent.vue';
-import { geocodeAddress } from '~/utils/geocode';
 import type { FormSubmitEvent } from '#ui/types';
-import { MapboxAddressAutofill, MapboxSearchBox, MapboxGeocoder, config, autofill } from '@mapbox/search-js-web'
-onMounted(() => {
-// autofill({
-//   options: {
-//     country: 'sk'
-//   }
-// })
-  })
 
-const result = ref(null);
-
-const emit = defineEmits(['submit', 'previous'])
+const emit = defineEmits(['submit'])
 
 const store = useFormStore();
 const step2 = store.formData.step2;
@@ -46,28 +34,6 @@ const step2 = store.formData.step2;
 const residentialState = reactive({
   address: step2.address,
 });
-
-const location = ref(null);
-const error = ref(null);
-
-const onAddressChange = async () => {
-  if (residentialState.address && residentialState.postalCode) {
-    try {
-      error.value = null;
-      location.value = await geocodeAddress(
-          residentialState.address,
-          residentialState.postalCode
-      );
-    } catch (err) {
-      error.value = err.message;
-      location.value = null;
-    }
-  }
-};
-
-const previousStep = () => {
-  emit('previous')
-}
 
 type Schema = v.InferOutput<typeof step2Schema>
 

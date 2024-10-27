@@ -1,6 +1,9 @@
 import axios from 'axios';
+import fs from 'fs';
+import path from 'path';
+import { useRuntimeConfig } from '#imports';
 
-interface MapOptions {
+export interface MapOptions {
     lon: number;
     lat: number;
     zoom: number;
@@ -13,8 +16,7 @@ interface MapOptions {
 // Helper function to create the URL for Mapbox API
 const createMapboxUrl = ({ lon, lat, zoom, width = 600, height = 400, markers, path }: MapOptions): string => {
     const baseUrl = `https://api.mapbox.com/styles/v1/mapbox/streets-v11/static`;
-
-    const config = useRuntimeConfig()
+    const config = useRuntimeConfig();
 
     let markerPart = '';
     if (markers) {
@@ -33,42 +35,17 @@ const createMapboxUrl = ({ lon, lat, zoom, width = 600, height = 400, markers, p
     return `${baseUrl}/${markerPart}${pathPart ? `,${pathPart}` : ''}/${lon},${lat},${zoom}/${width}x${height}@2x?access_token=${config.public.mapbox.accessToken}`;
 };
 
-// Function to fetch the static map image from Mapbox
-const fetchMapImage = async (options: MapOptions): Promise<string> => {
+// Function to fetch and save the static map image
+export const fetchAndSaveMapImage = async (options: MapOptions, fileName: string): Promise<void> => {
     const url = createMapboxUrl(options);
 
     try {
         const response = await axios.get(url, { responseType: 'arraybuffer' });
-        return Buffer.from(response.data, 'binary').toString('base64');
+        const filePath = path.resolve(__dirname, fileName);
+        fs.writeFileSync(filePath, response.data, 'binary');
+        console.log(`Map image saved to ${filePath}`);
     } catch (error) {
-        console.error('Error fetching map image:', error);
+        console.error('Error fetching or saving map image:', error);
         throw error;
-    }
-};
-
-// Example usage
-export const exampleUsage = async () => {
-    const options: MapOptions = {
-        lon: -122.4194,
-        lat: 37.7749,
-        zoom: 12,
-        markers: [{ lon: -122.4194, lat: 37.7749, color: '0000FF' }],
-        path: {
-            coordinates: [
-                [-122.4194, 37.7749],
-                [-122.4294, 37.7849]
-            ],
-            color: '00FF00',
-            weight: 4,
-            opacity: 0.6
-        }
-    };
-
-    try {
-        const base64Image = await fetchMapImage(options);
-        console.log('Map image (base64):', base64Image);
-        // You can now send this base64 image to the frontend or save it as a file
-    } catch (error) {
-        console.error('Failed to fetch map image:', error);
     }
 };

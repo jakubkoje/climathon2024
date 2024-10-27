@@ -41,16 +41,15 @@ import * as v from 'valibot';
 import { reactive } from 'vue';
 import { useFormStore } from '@/stores/useFormStore';
 import type { FormSubmitEvent } from '#ui/types';
-import {exampleUsage} from "~~/server/api/pdf/screenshot";
 
-const emit = defineEmits(['submit', 'previous'])
+const emit = defineEmits(['submit'])
 
 const store = useFormStore();
-const building = store.formData.building;
+const step3 = store.formData.step3;
 const layout = store.formData.containerLayout;
 
 const buildingState = reactive({
-  map: building.map
+  map: step3.map
 });
 
 const containerOptions = ref([
@@ -105,24 +104,11 @@ watch(buildingState, async (newValue, oldValue) => {
   }
 })
 
-const increment = (key) => {
-  layout[key]++;
-};
-
-const decrement = (key) => {
-  if (layout[key] > 0) layout[key]--;
-};
-
-const previousStep = () => {
-  emit('previous')
-}
-
 type Schema = v.InferOutput<typeof step3Schema>
 
 const nextStep = async (event: FormSubmitEvent<Schema>) => {
   // Store the data back in the store
-  Object.assign(building, event.data);
-  console.log(event.data)
+  Object.assign(step3, event.data);
   emit('submit')
 };
 </script>
