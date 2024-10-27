@@ -1,18 +1,20 @@
 // server/api/upload-image.post.ts
 import { storage, db } from '~/utils/firebaseClient';
+import { generatePDF } from "~/utils/pdf";
+
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { collection, addDoc } from 'firebase/firestore';
 
 export default defineEventHandler(async (event) => {
     const requestData = await readBody(event);
-    console.log(requestData)
+    // console.log(requestData)
 
     if (requestData?.formData?.step3?.map && requestData.formData.step3.map.length) {
         const data = requestData.formData.step3.map
 
         let helper = { ...data };
 
-        console.log(helper)
+        // console.log(helper)
 
 
         requestData.formData.step3.map = helper
@@ -67,9 +69,13 @@ export default defineEventHandler(async (event) => {
         // requestData.image.path = downloadURL
 
         // Add new document to the 'requests' collection
-        const docRef = await addDoc(collection(db, 'requests'), requestData);
 
-        return { success: true, entryId: docRef.id };
+        
+        const docRef = await addDoc(collection(db, 'requests'), requestData);
+        
+        const buffer = generatePDF(requestData.formData, requestData.imageUrl)
+
+        return { success: true, entryId: docRef.id, link: '', buffer };
         // return { success: true, downloadURL, entryId: docRef.id };
     } catch (error) {
         console.error('Error uploading image:', error);
