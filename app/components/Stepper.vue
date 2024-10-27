@@ -3,8 +3,7 @@
     <div
         v-for="(step, index) in steps"
         :key="index"
-        class="flex items-center gap-4 cursor-pointer"
-        @click="$emit('changeStep', index)"
+        class="flex items-center gap-4"
     >
       <div
           :class="twMerge('flex min-w-8 justify-center items-center rounded-full size-8 border',

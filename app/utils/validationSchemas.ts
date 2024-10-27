@@ -12,17 +12,11 @@ export const step1Schema = v.object({
 });
 
 export const step2Schema = v.object({
-    address: v.pipe(v.string(), v.minLength(1, 'Address is required')),
-    postalCode: v.pipe(
-        v.string(),
-        v.minLength(5, 'Postal code is invalid'),
-        v.custom((code: string) => bratislavaPostalCodes.includes(code) || 'Postal code must be a valid Bratislava postal code')
-    )
+    address: v.pipe(v.object({}, 'Address is required'), v.minLength(1, 'Address is required')),
 });
 
 export const step3Schema = v.object({
-    address: v.pipe(v.string(), v.minLength(1, 'Address is required')),
-    postalCode: v.pipe(v.string(), v.minLength(5, 'Postal code must be at least 5 characters')),
+    map: v.array(v.array(v.number()), 'The selected location is not suitable for the container stand'),
 });
 
 const bratislavaPostalCodes: string[] = [

@@ -1,22 +1,24 @@
 <template>
   <MapboxMap
-    style="position: relative; width: 100%; aspect-ratio: 3/2; border: 1px solid #ccc;"
+    class="!relative !w-full aspect-[3/2] border border-gray-300 rounded-lg overflow-hidden"
     map-id="map"
-    @click="onMapClick"
     :options="{
         style: 'mapbox://styles/jakubkoje/cm2pdg972007d01qwciof9hbn',
-        center: [17.150450, 48.157436],
+        center: initialCenter,
         zoom: 20
       }"
   />
 
-  <USlider :min="0" :max="359" :default-value="50" v-model="rotation" class="mt-4" />
+  <USlider :min="0" :max="359" :default-value="50" v-model="rotation" class="my-4" />
 </template>
 
 <script setup lang="ts">
+const props = defineProps<{ container: number, center: number[] }>();
+const model = defineModel()
 const rotation = ref(0);
 
-let center = [17.150450, 48.157436];
+const initialCenter = [...props.center];
+
 const latitudeOffset = ref(0.00002703);
 const longitudeOffset = ref(0.00007243);
 
@@ -28,7 +30,8 @@ const boxCoordinates = computed(() => [
   [center[0] - longitudeOffset.value / 2, center[1] - latitudeOffset.value / 2]  // Closing the loop
 ]);
 
-const props = defineProps<{ container: number }>();
+let center = [...props.center];
+
 
 const containers = {
   1: {
@@ -108,6 +111,9 @@ useMapbox('map', (map) => {
     }
   });
 
+  model.value = map.getSource('box')._data.geometry.coordinates[0];
+
+
   let isDragging = false;
   let startCoords = null;
 
@@ -135,6 +141,8 @@ useMapbox('map', (map) => {
   map.on('mouseup', () => {
     isDragging = false;
     originalCoords = map.getSource('box')._data.geometry.coordinates[0];
+    console.log(originalCoords);
+    model.value = originalCoords;
   });
 
   const getRotatedCoordinates = (center, angle) => {
@@ -153,7 +161,9 @@ useMapbox('map', (map) => {
   const rotateBox = (newAngle) => {
     const newCoordinates = getRotatedCoordinates(center, newAngle);
     updateBoxAndCanvas(newCoordinates);
+
     originalCoords = newCoordinates;
+    model.value = originalCoords;
 
     // Redraw image with new rotation angle
     context.clearRect(0, 0, canvas.width, canvas.height);
@@ -198,6 +208,7 @@ useMapbox('map', (map) => {
 
       updateBoxAndCanvas(newCoordinates);
       originalCoords = newCoordinates;
+      model.value = originalCoords;
 
       // Ensure new image is drawn with rotation
       img.onload = () => {

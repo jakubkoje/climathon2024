@@ -1,37 +1,22 @@
 <template>
-  <div class="flex flex-col gap-4">
-    <h2 class="text-2xl">Residential Information</h2>
+  <div class="flex flex-col gap-4 pb-64">
+    <h2 class="text-2xl">Information about the building</h2>
     <UForm
         :schema="v.safeParser(step2Schema)"
         :state="residentialState"
-        @submit="submitStep"
+        @submit="nextStep"
         class="space-y-4"
     >
       <UFormField label="Address" name="address">
-        <UInput
-            v-model="residentialState.address"
-            placeholder="Address"
-            @blur="onAddressChange"
-        />
-      </UFormField>
-
-      <UFormField label="Postal Code" name="postalCode">
-        <UInput
-            v-model="residentialState.postalCode"
-            placeholder="Postal Code"
-            @blur="onAddressChange"
+        <MapboxCustomGeocoder v-model="residentialState.address" :options="{ countries: 'sk', bbox: [16.938268,47.973709,17.287084,48.263416], placeholder: 'Search for an address'}"
+        class="w-full"
         />
       </UFormField>
 
       <div class="flex justify-end gap-2 mt-6">
-        <PreviousButton @click="previousStep" />
         <NextButton />
       </div>
     </UForm>
-
-    <MapComponent v-if="location" :lat="location.lat" :lon="location.lon" />
-
-    <div v-if="error" class="error">{{ error }}</div>
   </div>
 </template>
 
@@ -41,15 +26,25 @@ import { reactive, ref } from 'vue';
 import { useFormStore } from '@/stores/useFormStore';
 import MapComponent from './MapComponent.vue';
 import { geocodeAddress } from '~/utils/geocode';
+import type { FormSubmitEvent } from '#ui/types';
+import { MapboxAddressAutofill, MapboxSearchBox, MapboxGeocoder, config, autofill } from '@mapbox/search-js-web'
+onMounted(() => {
+// autofill({
+//   options: {
+//     country: 'sk'
+//   }
+// })
+  })
 
-const emit = defineEmits(['next', 'previous', 'submit'])
+const result = ref(null);
+
+const emit = defineEmits(['submit', 'previous'])
 
 const store = useFormStore();
-const residential = store.formData.residential;
+const step2 = store.formData.step2;
 
 const residentialState = reactive({
-  address: residential.address || '',
-  postalCode: residential.postalCode || '',
+  address: step2.address,
 });
 
 const location = ref(null);
@@ -74,23 +69,29 @@ const previousStep = () => {
   emit('previous')
 }
 
-const submitStep = async (event) => {
-  // Store the data back in the store
-  Object.assign(residential, event.data);
+type Schema = v.InferOutput<typeof step2Schema>
+
+const nextStep = async (event: FormSubmitEvent<Schema>) => {
+  Object.assign(step2, event.data);
+  emit('submit')
 };
 </script>
 
-<style scoped>
-.error {
-  color: red;
-  margin-top: 10px;
+<style>
+.mapboxgl-ctrl-geocoder {
+  width: 100% !important;
+  display: block !important;
+  max-width: unset !important;
+  box-shadow: none !important;
 }
 
-.prev-button {
-  border: 1px solid #F4CDCA;
+.mapboxgl-ctrl-geocoder--input {
+  box-shadow: none !important;
+  border: 1px solid var(--ui-border-accented);
+  border-radius: calc(var(--ui-radius)*1.5);
 }
 
-.next-button {
-  background-color: #F4CDCA;
+.mapboxgl-ctrl-geocoder--input:focus {
+  border: 1px solid var(--ui-border-accented);
 }
 </style>
