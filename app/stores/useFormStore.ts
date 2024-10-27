@@ -15,8 +15,7 @@ export const useFormStore = defineStore('form', () => {
             postalCode: '12345'
         },
         step2: {
-            address: '456 Elm St',
-            postalCode: '67890'
+            address: undefined,
         },
         building: {
             address: '',

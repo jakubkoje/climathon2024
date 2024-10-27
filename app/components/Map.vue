@@ -161,7 +161,9 @@ useMapbox('map', (map) => {
   const rotateBox = (newAngle) => {
     const newCoordinates = getRotatedCoordinates(center, newAngle);
     updateBoxAndCanvas(newCoordinates);
+
     originalCoords = newCoordinates;
+    model.value = originalCoords;
 
     // Redraw image with new rotation angle
     context.clearRect(0, 0, canvas.width, canvas.height);
@@ -206,6 +208,7 @@ useMapbox('map', (map) => {
 
       updateBoxAndCanvas(newCoordinates);
       originalCoords = newCoordinates;
+      model.value = originalCoords;
 
       // Ensure new image is drawn with rotation
       img.onload = () => {
